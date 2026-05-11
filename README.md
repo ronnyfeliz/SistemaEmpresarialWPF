@@ -321,9 +321,6 @@ El sistema fue desarrollado entre abril y mayo de 2026, en 20 fases iterativas:
 | Exportación ZIP del historial de ventas | ✅ Completo |
 | Panel de ventas del día con resumen | ✅ Completo |
 | Información del negocio en facturas | ✅ Completo |
-| Impresión directa | 🔲 Pendiente |
-| Control de permisos granular por usuario | 🔲 Pendiente |
-| Restauración cuando la BD está corrupta al inicio | 🔲 Pendiente |
 
 ---
 
