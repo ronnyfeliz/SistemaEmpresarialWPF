@@ -1,0 +1,88 @@
+﻿<Window x:Class="Project_v1.Vista.MoraDialogWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Cláusula de Mora"
+        Height="300"
+        Width="460"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="#F5F7FA">
+
+    <Border Padding="25">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Título -->
+            <TextBlock Grid.Row="0"
+                       Text="¿Aplicar cláusula de mora?"
+                       FontSize="20"
+                       FontWeight="Bold"
+                       Foreground="#2C3E50"
+                       Margin="0,0,0,10"/>
+
+            <!-- Descripción -->
+            <TextBlock Grid.Row="1"
+                       Text="Si el cliente no paga a tiempo, ¿se le aplicará un cargo adicional por mora?"
+                       FontSize="13"
+                       Foreground="#7F8C8D"
+                       TextWrapping="Wrap"
+                       Margin="0,0,0,20"/>
+
+            <!-- Label -->
+            <TextBlock Grid.Row="2"
+                       Text="Monto de mora (RD$)"
+                       FontSize="13"
+                       FontWeight="SemiBold"
+                       Margin="0,0,0,6"/>
+
+            <!-- TextBox -->
+            <TextBox Grid.Row="3"
+                     x:Name="TxtMora"
+                     Height="38"
+                     Padding="10,6"
+                     FontSize="14"
+                     VerticalContentAlignment="Center"
+                     Margin="0,0,0,25"/>
+
+            <!-- Botones -->
+            <Grid Grid.Row="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="15"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Botón SI -->
+                <Button Grid.Column="0"
+                        Content="✅ Sí, aplicar mora"
+                        Click="BtnSi_Click"
+                        Height="42"
+                        FontSize="13"
+                        FontWeight="SemiBold"
+                        Cursor="Hand"
+                        Background="#27AE60"
+                        Foreground="White"
+                        BorderThickness="0"/>
+
+                <!-- Botón NO -->
+                <Button Grid.Column="2"
+                        Content="❌ No, sin mora"
+                        Click="BtnNo_Click"
+                        Height="42"
+                        FontSize="13"
+                        FontWeight="SemiBold"
+                        Cursor="Hand"
+                        Background="#7F8C8D"
+                        Foreground="White"
+                        BorderThickness="0"/>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

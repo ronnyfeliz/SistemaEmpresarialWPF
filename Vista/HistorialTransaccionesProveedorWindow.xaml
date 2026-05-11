@@ -1,0 +1,86 @@
+<Window x:Class="Project_v1.Vista.HistorialTransaccionesProveedorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Historial de transacciones de proveedores"
+        Height="520"
+        Width="980"
+        WindowStartupLocation="CenterOwner">
+    <Grid Margin="18">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="12"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="6"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel>
+                <TextBlock Text="Historial global de transacciones"
+                   FontSize="20" FontWeight="Bold" Foreground="#263645"/>
+                <TextBlock Text="Suministros registrados por fecha, proveedor y estado de pago."
+                   FontSize="12" Foreground="#6F7F8F" Margin="0,4,0,0"/>
+            </StackPanel>
+            <Button Grid.Column="1" Content="Actualizar"
+            Click="Actualizar_Click"
+            Height="34" Padding="14,0" Margin="0,0,8,0"
+            Background="#7F8C8D" Foreground="White"/>
+            <Button Grid.Column="2" Content="Exportar Excel"
+            Click="ExportarExcel_Click"
+            Height="34" Padding="14,0" Margin="0,0,8,0"
+            Background="#1E8449" Foreground="White"/>
+            <Button Grid.Column="3" Content="Exportar PDF"
+            Click="ExportarPdf_Click"
+            Height="34" Padding="14,0"
+            Background="#C0392B" Foreground="White"/>
+            <!-- Ver Detalles -->
+            <Button Grid.Column="5"
+            Content="🔍 Detalles"
+            Click="VerDetalles_Click"
+            Height="34" Padding="12,0" FontSize="11"
+            IsEnabled="{Binding HayTransaccionSeleccionada}">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="#BDC3C7"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsEnabled" Value="True">
+                                <Setter Property="Background" Value="#D4AC0D"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+
+        <DataGrid Grid.Row="2"
+          ItemsSource="{Binding Transacciones}"
+          SelectedItem="{Binding TransaccionSeleccionada}"
+          AutoGenerateColumns="False"
+          IsReadOnly="True"
+          CanUserAddRows="False"
+          RowHeaderWidth="0"
+          GridLinesVisibility="Horizontal">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID Trans." Binding="{Binding Id}" Width="75"/>
+                <DataGridTextColumn Header="ID Prov." Binding="{Binding ProveedorId}" Width="70"/>
+                <DataGridTextColumn Header="Proveedor" Binding="{Binding Proveedor.Nombre}" Width="*"/>
+                <DataGridTextColumn Header="Tipo" Binding="{Binding Proveedor.TipoTexto}" Width="150"/>
+                <DataGridTextColumn Header="Fecha" Binding="{Binding FechaProvision, StringFormat=dd/MM/yyyy}" Width="95"/>
+                <DataGridTextColumn Header="Cantidad" Binding="{Binding CantidadMercancia}" Width="80"/>
+                <DataGridTextColumn Header="Total" Binding="{Binding MontoTotal, StringFormat=C}" Width="105"/>
+                <DataGridTextColumn Header="Pagado" Binding="{Binding MontoPagado, StringFormat=C}" Width="105"/>
+                <DataGridTextColumn Header="Pendiente" Binding="{Binding SaldoPendiente, StringFormat=C}" Width="110"/>
+                <DataGridTextColumn Header="Estado" Binding="{Binding EstadoPago}" Width="105"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

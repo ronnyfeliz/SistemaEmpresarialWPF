@@ -1,0 +1,501 @@
+﻿<UserControl x:Class="Project_v1.Vista.DashboardControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Background="#F4F6F8">
+        <Grid Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="14"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="14"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="14"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Encabezado superior -->
+            <Border Grid.Row="0"
+                    Background="#1F2D3A"
+                    CornerRadius="10"
+                    Padding="18">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="240"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Dashboard del negocio"
+                                   FontSize="22"
+                                   FontWeight="Bold"
+                                   Foreground="White"/>
+                        <TextBlock Text="Resumen de ventas, alertas operativas y estado del respaldo."
+                                   FontSize="11"
+                                   Foreground="#C9D4DD"
+                                   Margin="0,5,0,0"/>
+                    </StackPanel>
+
+                    <!-- Resumen rápido del último backup -->
+                    <Border Grid.Column="1"
+                            Background="#2E4053"
+                            CornerRadius="8"
+                            Padding="12,10"
+                            VerticalAlignment="Center">
+                        <StackPanel>
+                            <TextBlock Text="Último backup"
+                                       FontSize="10"
+                                       Foreground="#B8C7D1"/>
+                            <TextBlock Text="{Binding UltimoBackupTexto}"
+                                       FontSize="14"
+                                       FontWeight="Bold"
+                                       Foreground="#85C1E9"
+                                       Margin="0,4,0,0"
+                                       TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Border>
+
+            <!-- Tarjetas principales compactas -->
+            <UniformGrid Grid.Row="2" Columns="3">
+
+                <!-- Ventas de hoy -->
+                <Border Margin="0,0,10,0"
+                        Background="White"
+                        BorderBrush="#DCE8E3"
+                        BorderThickness="1"
+                        CornerRadius="10"
+                        Padding="14">
+                    <StackPanel>
+                        <TextBlock Text="Ventas de hoy"
+                                   FontSize="11"
+                                   Foreground="#6C7A89"/>
+                        <TextBlock Text="{Binding VentasHoy, StringFormat=C}"
+                                   FontSize="24"
+                                   FontWeight="Bold"
+                                   Foreground="#229954"
+                                   Margin="0,6,0,2"/>
+                        <TextBlock Text="Generado hoy"
+                                   FontSize="10"
+                                   Foreground="#95A5A6"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Ventas del mes -->
+                <Border Margin="0,0,10,0"
+                        Background="White"
+                        BorderBrush="#D9E2EC"
+                        BorderThickness="1"
+                        CornerRadius="10"
+                        Padding="14">
+                    <StackPanel>
+                        <TextBlock Text="Ventas del mes"
+                                   FontSize="11"
+                                   Foreground="#6C7A89"/>
+                        <TextBlock Text="{Binding VentasMes, StringFormat=C}"
+                                   FontSize="24"
+                                   FontWeight="Bold"
+                                   Foreground="#1F3A5F"
+                                   Margin="0,6,0,2"/>
+                        <TextBlock Text="Acumulado mensual"
+                                   FontSize="10"
+                                   Foreground="#95A5A6"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Deudores activos con color dinámico -->
+                <Border Margin="0,0,10,0"
+                        BorderThickness="1"
+                        CornerRadius="10"
+                        Padding="14">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Setter Property="Background" Value="#FFF8E8"/>
+                            <Setter Property="BorderBrush" Value="#F1D58A"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding DeudoresActivos}" Value="0">
+                                    <Setter Property="Background" Value="#EEF8F1"/>
+                                    <Setter Property="BorderBrush" Value="#B9DEC6"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+
+                    <StackPanel>
+                        <TextBlock Text="Deudores activos"
+                                   FontSize="11">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="#7D6608"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding DeudoresActivos}" Value="0">
+                                            <Setter Property="Foreground" Value="#1E8449"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+
+                        <TextBlock Text="{Binding DeudoresActivos}"
+                                   FontSize="24"
+                                   FontWeight="Bold"
+                                   Margin="0,6,0,2">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="#B9770E"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding DeudoresActivos}" Value="0">
+                                            <Setter Property="Foreground" Value="#239B56"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+
+                        <TextBlock FontSize="10">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Text" Value="Clientes pendientes"/>
+                                    <Setter Property="Foreground" Value="#A68A33"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding DeudoresActivos}" Value="0">
+                                            <Setter Property="Text" Value="Sin deudas pendientes"/>
+                                            <Setter Property="Foreground" Value="#6E9E7E"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+
+                <!-- Stock bajo con color dinámico -->
+                <Border BorderThickness="1"
+                        Margin="0,10,10,0"
+                        CornerRadius="10"
+                        Padding="14">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Setter Property="Background" Value="#FEF2F2"/>
+                            <Setter Property="BorderBrush" Value="#EAB9B9"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ProductosStockBajo}" Value="0">
+                                    <Setter Property="Background" Value="#EEF8F1"/>
+                                    <Setter Property="BorderBrush" Value="#B9DEC6"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+
+                    <StackPanel>
+                        <TextBlock Text="Stock bajo"
+                                   FontSize="11">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="#7B241C"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ProductosStockBajo}" Value="0">
+                                            <Setter Property="Foreground" Value="#1E8449"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+
+                        <TextBlock Text="{Binding ProductosStockBajo}"
+                                   FontSize="24"
+                                   FontWeight="Bold"
+                                   Margin="0,6,0,2">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="#C0392B"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ProductosStockBajo}" Value="0">
+                                            <Setter Property="Foreground" Value="#239B56"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+
+                        <TextBlock FontSize="10">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Text" Value="Productos con 10 o menos"/>
+                                    <Setter Property="Foreground" Value="#A56964"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ProductosStockBajo}" Value="0">
+                                            <Setter Property="Text" Value="Inventario en nivel saludable"/>
+                                            <Setter Property="Foreground" Value="#6E9E7E"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+
+                <!-- Proveedores con deuda -->
+                <Border Margin="0,10,10,0"
+                        BorderThickness="1"
+                        CornerRadius="10"
+                        Padding="14">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Setter Property="Background" Value="#FFF8E8"/>
+                            <Setter Property="BorderBrush" Value="#F1D58A"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ProveedoresConDeuda}" Value="0">
+                                    <Setter Property="Background" Value="#EEF8F1"/>
+                                    <Setter Property="BorderBrush" Value="#B9DEC6"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+
+                    <StackPanel>
+                        <TextBlock Text="Proveedores con deuda"
+                                   FontSize="11"
+                                   Foreground="#7D6608"/>
+                        <TextBlock Text="{Binding ProveedoresConDeuda}"
+                                   FontSize="24"
+                                   FontWeight="Bold"
+                                   Foreground="#B9770E"
+                                   Margin="0,6,0,2"/>
+                        <TextBlock Text="Cuentas por pagar"
+                                   FontSize="10"
+                                   Foreground="#A68A33"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Deuda total a proveedores -->
+                <Border Margin="0,10,0,0"
+                        Background="White"
+                        BorderBrush="#D9E2EC"
+                        BorderThickness="1"
+                        CornerRadius="10"
+                        Padding="14">
+                    <StackPanel>
+                        <TextBlock Text="Deuda a proveedores"
+                                   FontSize="11"
+                                   Foreground="#6C7A89"/>
+                        <TextBlock Text="{Binding DeudaProveedores, StringFormat=C}"
+                                   FontSize="24"
+                                   FontWeight="Bold"
+                                   Foreground="#8E44AD"
+                                   Margin="0,6,0,2"/>
+                        <TextBlock Text="Pendiente por suministros"
+                                   FontSize="10"
+                                   Foreground="#95A5A6"/>
+                    </StackPanel>
+                </Border>
+            </UniformGrid>
+
+            <!-- Estado del sistema -->
+            <Border Grid.Row="4"
+                    Background="White"
+                    BorderBrush="#DFE6EC"
+                    BorderThickness="1"
+                    CornerRadius="10"
+                    Padding="16">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="12"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="12"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Estado de deudores -->
+                    <Border Grid.Column="0"
+                            CornerRadius="8"
+                            Padding="12">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Background" Value="#FFF8E8"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding DeudoresActivos}" Value="0">
+                                        <Setter Property="Background" Value="#EEF8F1"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <StackPanel>
+                            <TextBlock Text="Cobros"
+                                       FontSize="10"
+                                       Foreground="#7F8C8D"/>
+                            <TextBlock FontSize="13"
+                                       FontWeight="Bold"
+                                       Margin="0,4,0,0">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Text" Value="Hay clientes pendientes de pago"/>
+                                        <Setter Property="Foreground" Value="#B9770E"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding DeudoresActivos}" Value="0">
+                                                <Setter Property="Text" Value="Sin deudas activas en este momento"/>
+                                                <Setter Property="Foreground" Value="#239B56"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Estado de inventario -->
+                    <Border Grid.Column="2"
+                            CornerRadius="8"
+                            Padding="12">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Background" Value="#FEF2F2"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ProductosStockBajo}" Value="0">
+                                        <Setter Property="Background" Value="#EEF8F1"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <StackPanel>
+                            <TextBlock Text="Inventario"
+                                       FontSize="10"
+                                       Foreground="#7F8C8D"/>
+                            <TextBlock FontSize="13"
+                                       FontWeight="Bold"
+                                       Margin="0,4,0,0">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Text" Value="Hay productos que requieren reposición"/>
+                                        <Setter Property="Foreground" Value="#C0392B"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ProductosStockBajo}" Value="0">
+                                                <Setter Property="Text" Value="No hay alertas de stock bajo"/>
+                                                <Setter Property="Foreground" Value="#239B56"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Estado del respaldo -->
+                    <Border Grid.Column="4"
+                            Background="#EEF6FB"
+                            CornerRadius="8"
+                            Padding="12">
+                        <StackPanel>
+                            <TextBlock Text="Respaldo"
+                                       FontSize="10"
+                                       Foreground="#7F8C8D"/>
+                            <TextBlock Text="La fecha visible proviene del historial registrado del backup."
+                                       FontSize="13"
+                                       FontWeight="Bold"
+                                       Foreground="#2874A6"
+                                       Margin="0,4,0,0"
+                                       TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Border>
+
+            <!-- Tabla de últimas ventas -->
+            <Border Grid.Row="6"
+                    Background="White"
+                    BorderBrush="#DFE6EC"
+                    BorderThickness="1"
+                    CornerRadius="10"
+                    Padding="16">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="Últimas 5 ventas"
+                                       FontSize="15"
+                                       FontWeight="Bold"
+                                       Foreground="#2C3E50"/>
+                            <TextBlock Text="Actividad reciente registrada en el sistema."
+                                       FontSize="11"
+                                       Foreground="#7F8C8D"
+                                       Margin="0,4,0,0"/>
+                        </StackPanel>
+
+                        <Border Grid.Column="1"
+                                Background="#ECF0F1"
+                                CornerRadius="12"
+                                Padding="10,4"
+                                VerticalAlignment="Center">
+                            <TextBlock Text="{Binding UltimasVentas.Count, StringFormat={}{0} registro(s)}"
+                                       FontSize="11"
+                                       FontWeight="SemiBold"
+                                       Foreground="#566573"/>
+                        </Border>
+                    </Grid>
+
+                    <DataGrid Grid.Row="2"
+                              ItemsSource="{Binding UltimasVentas}"
+                              AutoGenerateColumns="False"
+                              IsReadOnly="True"
+                              CanUserAddRows="False"
+                              CanUserResizeRows="False"
+                              HeadersVisibility="Column"
+                              GridLinesVisibility="Horizontal"
+                              RowHeaderWidth="0"
+                              Background="White"
+                              BorderThickness="0">
+                        <DataGrid.Resources>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="Background" Value="#1F2D3A"/>
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="FontWeight" Value="Bold"/>
+                                <Setter Property="Padding" Value="10,8"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                            </Style>
+
+                            <Style TargetType="DataGridRow">
+                                <Setter Property="MinHeight" Value="32"/>
+                            </Style>
+
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="Padding" Value="8,6"/>
+                                <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                                <Setter Property="BorderBrush" Value="#ECF0F1"/>
+                            </Style>
+                        </DataGrid.Resources>
+
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Factura"
+                                                Binding="{Binding NumFactura}"
+                                                Width="180"/>
+                            <DataGridTextColumn Header="Fecha"
+                                                Binding="{Binding FechaTexto}"
+                                                Width="180"/>
+                            <DataGridTextColumn Header="Cajero"
+                                                Binding="{Binding Cajero}"
+                                                Width="*"/>
+                            <DataGridTextColumn Header="Total"
+                                                Binding="{Binding Total, StringFormat=C}"
+                                                Width="120"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </Border>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

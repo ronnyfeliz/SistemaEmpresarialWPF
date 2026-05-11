@@ -1,0 +1,168 @@
+﻿<Window x:Class="Project_v1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewmodels="clr-namespace:Project_v1.VistaModelos"
+        xmlns:vista="clr-namespace:Project_v1.Vista"
+        mc:Ignorable="d"
+        Title="Sistema de Ventas" Height="600" Width="900"
+        WindowStartupLocation="CenterScreen"
+        Closing="Window_Closing">
+
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type viewmodels:InventarioViewModel}">
+            <vista:InventarioWindow/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewmodels:ServicioViewModel}">
+            <vista:ServiciosControl/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewmodels:DashboardViewModel}">
+            <vista:DashboardControl/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewmodels:ProveedorViewModel}">
+            <vista:ProveedoresControl/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewmodels:MiNegocioViewModel}">
+            <vista:MiNegocioControl/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewmodels:VentasViewModel}">
+            <vista:VentasControl/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewmodels:ClientesDeudoresViewModel}">
+            <vista:ClientesDeudoresControl/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewmodels:HistorialVentasViewModel}">
+            <vista:HistorialVentasControl/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewmodels:UsuarioViewModel}">
+            <vista:UsuarioControl/>
+        </DataTemplate>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="45"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Barra superior -->
+        <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                Background="#1A252F">
+            <Grid Margin="15,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0"
+                            Orientation="Horizontal"
+                            VerticalAlignment="Center">
+                    <Image Source="{Binding LogoPreview}"
+                           Width="40" Height="40"
+                           Margin="0,0,10,0"
+                           Stretch="UniformToFill"
+                           ClipToBounds="True"/>
+
+                    <TextBlock Text="{Binding NombreNegocio}"
+                               FontSize="16"
+                               FontWeight="Bold"
+                               Foreground="White"
+                               VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1"
+                            Orientation="Horizontal"
+                            VerticalAlignment="Center">
+                    <TextBlock Text="👤 "
+                               FontSize="13"
+                               Foreground="#BDC3C7"/>
+
+                    <TextBlock Text="{Binding NombreUsuarioActivo}"
+                               FontSize="13"
+                               FontWeight="Bold"
+                               Foreground="#BDC3C7"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Menú lateral -->
+        <StackPanel Grid.Row="1" Grid.Column="0" Background="#2C3E50">
+
+            <Button Content="🛒  Ventas"
+                    Command="{Binding MostrarVentasCommand}"
+                    Style="{StaticResource MenuButtonStyle}"/>
+
+            <Button Content="📦  Inventario"
+                    Command="{Binding MostrarInventarioCommand}"
+                    Style="{StaticResource MenuButtonStyle}"/>
+
+            <Button Content="📋  Historial de Ventas"
+                    Command="{Binding MostrarHistorialCommand}"
+                    Style="{StaticResource MenuButtonStyle}"/>
+
+            <Button Content="💳  Clientes Deudores"
+                    Command="{Binding MostrarClientesDeudoresCommand}"
+                    Style="{StaticResource MenuButtonStyle}"/>
+
+            <Button Content="🛠  Servicios"
+                    Command="{Binding MostrarServiciosCommand}"
+                    Style="{StaticResource MenuButtonStyle}"/>
+
+            <Button Content="🚚  Proveedores"
+                    Command="{Binding MostrarProveedoresCommand}"
+                    Style="{StaticResource MenuButtonStyle}"/>
+
+            <!-- Dashboard queda debajo de Servicios, como pedía la fase 17. -->
+            <Button Content="📊  Dashboard"
+                    Command="{Binding MostrarDashboardCommand}"
+                    Style="{StaticResource MenuButtonStyle}"/>
+
+            <Button Content="🏪  Mi Negocio"
+                    Command="{Binding MostrarMiNegocioCommand}"
+                    Style="{StaticResource MenuButtonStyle}"/>
+
+            <Separator Background="#4A6278" Margin="10,20"/>
+
+            <Button Content="👤  Usuario"
+                    Command="{Binding MostrarUsuarioCommand}"
+                    Style="{StaticResource MenuButtonStyle}"/>
+
+            <Button Content="🚪  Cerrar Sesión"
+                    Command="{Binding CerrarSesionCommand}"
+                    Style="{StaticResource MenuButtonStyle}"/>
+
+            <!-- Versión y fecha de entrega -->
+            <StackPanel Margin="0,20,0,8" HorizontalAlignment="Center">
+                <TextBlock Text="v1.0.0"
+                           FontSize="11" FontWeight="Bold"
+                           Foreground="#4A6278"
+                           HorizontalAlignment="Center"/>
+                <TextBlock Text="14/05/2026"
+                           FontSize="10"
+                           Foreground="#4A6278"
+                           HorizontalAlignment="Center"
+                           Margin="0,2,0,0"/>
+            </StackPanel>
+        </StackPanel>
+
+        <!-- Área principal de contenido -->
+        <ContentControl Grid.Row="1"
+                        Grid.Column="1"
+                        Content="{Binding VistaActual}"
+                        Margin="10"/>
+    </Grid>
+</Window>

@@ -1,0 +1,129 @@
+﻿<Window x:Class="Project_v1.Vista.VentasPorFechaWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Ventas por fecha"
+        Height="560" Width="860"
+        WindowStartupLocation="CenterOwner">
+    <Grid Margin="18">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="12"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="12"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="12"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Título -->
+        <StackPanel Grid.Row="0">
+            <TextBlock Text="Ventas por fecha"
+                       FontSize="20" FontWeight="Bold" Foreground="#263645"/>
+            <TextBlock Text="Consulta el resumen de ventas de cualquier día."
+                       FontSize="12" Foreground="#6F7F8F" Margin="0,4,0,0"/>
+        </StackPanel>
+
+        <!-- Selector de fecha + botones -->
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="12"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="12"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="12"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="12"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0" Text="Selecciona una fecha:"
+                       VerticalAlignment="Center" FontSize="13"/>
+
+            <DatePicker Grid.Column="2"
+                        x:Name="FechaPicker"
+                        SelectedDate="{Binding FechaSeleccionada}"
+                        Width="160"/>
+
+            <Button Grid.Column="4" Content="🔍 Consultar"
+                    Click="Consultar_Click"
+                    Padding="12,6" Background="#263645" Foreground="White"/>
+
+            <Button Grid.Column="6" Content="📊 Excel"
+                    Click="ExportarExcel_Click"
+                    Padding="12,6" Background="#1E8449" Foreground="White"
+                    IsEnabled="{Binding HayDatos}"/>
+
+            <Button Grid.Column="8" Content="📄 PDF"
+                    Click="ExportarPdf_Click"
+                    Padding="12,6" Background="#C0392B" Foreground="White"
+                    IsEnabled="{Binding HayDatos}"/>
+        </Grid>
+
+        <!-- Tarjetas resumen -->
+        <UniformGrid Grid.Row="4" Columns="4">
+            <Border Background="#EAF7EF" CornerRadius="6" Padding="12" Margin="0,0,8,0">
+                <StackPanel>
+                    <TextBlock Text="Total del día" FontSize="11" Foreground="#6F7F8F"/>
+                    <TextBlock Text="{Binding TotalDia, StringFormat=C}"
+                               FontSize="18" FontWeight="Bold" Foreground="#27AE60"/>
+                </StackPanel>
+            </Border>
+            <Border Background="#EBF5FB" CornerRadius="6" Padding="12" Margin="0,0,8,0">
+                <StackPanel>
+                    <TextBlock Text="Ventas" FontSize="11" Foreground="#6F7F8F"/>
+                    <TextBlock Text="{Binding CantidadVentas}"
+                               FontSize="18" FontWeight="Bold" Foreground="#1A5276"/>
+                </StackPanel>
+            </Border>
+            <Border Background="#FEF9E7" CornerRadius="6" Padding="12" Margin="0,0,8,0">
+                <StackPanel>
+                    <TextBlock Text="Productos vendidos" FontSize="11" Foreground="#6F7F8F"/>
+                    <TextBlock Text="{Binding ProductosVendidos}"
+                               FontSize="18" FontWeight="Bold" Foreground="#D68910"/>
+                </StackPanel>
+            </Border>
+            <Border Background="#F5EEF8" CornerRadius="6" Padding="12">
+                <StackPanel>
+                    <TextBlock Text="Servicios vendidos" FontSize="11" Foreground="#6F7F8F"/>
+                    <TextBlock Text="{Binding ServiciosVendidos}"
+                               FontSize="18" FontWeight="Bold" Foreground="#8E44AD"/>
+                </StackPanel>
+            </Border>
+        </UniformGrid>
+
+        <!-- Tabla de ventas -->
+        <Border Grid.Row="6" Background="White" BorderBrush="#DDE5EC"
+                BorderThickness="1" CornerRadius="6">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Margin="12,10"
+                           Text="Detalle de ventas"
+                           FontSize="13" FontWeight="Bold" Foreground="#263645"/>
+                <DataGrid Grid.Row="1"
+                          ItemsSource="{Binding Ventas}"
+                          AutoGenerateColumns="False"
+                          IsReadOnly="True" CanUserAddRows="False"
+                          RowHeaderWidth="0" GridLinesVisibility="Horizontal">
+                    <DataGrid.Resources>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Background" Value="#263645"/>
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="FontWeight" Value="Bold"/>
+                            <Setter Property="Padding" Value="10,6"/>
+                        </Style>
+                    </DataGrid.Resources>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="# Factura" Binding="{Binding NumFactura}" Width="130"/>
+                        <DataGridTextColumn Header="Fecha" Binding="{Binding Fecha, StringFormat=dd/MM/yyyy}" Width="100"/>
+                        <DataGridTextColumn Header="Hora" Binding="{Binding Fecha, StringFormat=HH:mm}" Width="70"/>
+                        <DataGridTextColumn Header="Total" Binding="{Binding Total, StringFormat=C}" Width="110"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

@@ -1,0 +1,128 @@
+<Window x:Class="Project_v1.Vista.ComprobanteProveedorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Comprobante de Proveedor"
+        Width="440" Height="560"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="#F4F6F8">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- ENCABEZADO AZUL -->
+        <Border Grid.Row="0" Background="#1A2E4A" Padding="20,18">
+            <StackPanel>
+                <TextBlock x:Name="TxtTitulo"
+                           FontSize="18" FontWeight="Bold"
+                           Foreground="White" HorizontalAlignment="Center"/>
+                <TextBlock Text="Movimiento de proveedor registrado"
+                           FontSize="11" Foreground="#B0C4DE"
+                           HorizontalAlignment="Center" Margin="0,4,0,0"/>
+            </StackPanel>
+        </Border>
+
+        <!-- FECHA Y HORA -->
+        <Border Grid.Row="1" Background="White"
+                BorderBrush="#E0E0E0" BorderThickness="0,0,0,1"
+                Padding="20,12">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="FECHA" FontSize="10" Foreground="#7F8C8D"/>
+                    <TextBlock x:Name="TxtFecha" FontSize="13" FontWeight="SemiBold"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+                    <TextBlock Text="HORA" FontSize="10" Foreground="#7F8C8D"/>
+                    <TextBlock x:Name="TxtHora" FontSize="13" FontWeight="SemiBold"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- DATOS DEL MOVIMIENTO -->
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="20,16,20,8">
+
+                <TextBlock Text="DATOS DEL PROVEEDOR"
+                           FontSize="10" FontWeight="Bold"
+                           Foreground="#7F8C8D" Margin="0,0,0,8"/>
+
+                <Border Background="White" CornerRadius="6"
+                        BorderBrush="#E0E0E0" BorderThickness="1"
+                        Padding="14,10" Margin="0,0,0,16">
+                    <Grid x:Name="GridDatosProveedor">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="130"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <!-- filas generadas desde code-behind -->
+                    </Grid>
+                </Border>
+
+                <TextBlock Text="DESGLOSE DE LA OPERACIÓN"
+                           FontSize="10" FontWeight="Bold"
+                           Foreground="#7F8C8D" Margin="0,0,0,8"/>
+
+                <Border Background="White" CornerRadius="6"
+                        BorderBrush="#E0E0E0" BorderThickness="1"
+                        Padding="14,10" Margin="0,0,0,8">
+                    <StackPanel x:Name="PanelDesglose"/>
+                </Border>
+
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- SELLO DE ESTADO -->
+        <Border Grid.Row="3" Background="White"
+                BorderBrush="#E0E0E0" BorderThickness="0,1,0,0"
+                Padding="20,10">
+            <Border x:Name="SelloEstado"
+                    BorderThickness="2" CornerRadius="4"
+                    Padding="10,5" HorizontalAlignment="Center">
+                <TextBlock x:Name="TxtSello"
+                           FontSize="14" FontWeight="Bold"/>
+            </Border>
+        </Border>
+
+        <!-- BOTONES -->
+        <Grid Grid.Row="4" Margin="16,12,16,16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="8"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="8"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0"
+            Content="Cerrar"
+            Height="40" FontSize="12"
+            Background="#7F8C8D" Foreground="White"
+            BorderThickness="0" Cursor="Hand"
+            Click="BtnCerrar_Click"/>
+
+            <Button Grid.Column="2"
+            Content="📊 Excel"
+            Height="40" FontSize="12"
+            Background="#1E8449" Foreground="White"
+            BorderThickness="0" Cursor="Hand"
+            Click="BtnExportarExcel_Click"/>
+
+            <Button Grid.Column="4"
+            Content="📄 PDF"
+            Height="40" FontSize="12"
+            Background="#1A2E4A" Foreground="White"
+            BorderThickness="0" Cursor="Hand"
+            Click="BtnExportarPdf_Click"/>
+        </Grid>
+    </Grid>
+</Window>

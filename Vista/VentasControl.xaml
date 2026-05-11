@@ -1,0 +1,347 @@
+﻿<UserControl x:Class="Project_v1.Vista.VentasControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d">
+
+    <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="285"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- ═══════════════════════════════════════════════════
+             LADO IZQUIERDO
+        ════════════════════════════════════════════════════ -->
+        <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto" Margin="0,0,20,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Título -->
+                <TextBlock Grid.Row="0"
+                           Text="Nueva Venta"
+                           FontSize="20" FontWeight="Bold"
+                           Margin="0,0,0,15"/>
+
+                <!-- ── Sección: Agregar Producto ── -->
+                <Border Grid.Row="1"
+                        Background="#F0F4F8" CornerRadius="4"
+                        Padding="10" Margin="0,0,0,8">
+                    <TextBlock Text="🛒 Agregar Producto"
+                               FontWeight="Bold" FontSize="13" Foreground="#2C3E50"/>
+                </Border>
+
+                <Grid Grid.Row="2" Margin="0,0,0,6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox Grid.Column="0"
+                             Text="{Binding TextoBusqueda, UpdateSourceTrigger=PropertyChanged}"
+                             Padding="8" FontSize="13"/>
+                    <Button Grid.Column="1" Content="Buscar"
+                            Command="{Binding BuscarCommand}"
+                            Padding="12,0" Margin="6,0,0,0" Height="34"
+                            Background="#2C3E50" Foreground="White"/>
+                </Grid>
+
+                <ListBox Grid.Row="3"
+                         ItemsSource="{Binding ResultadosBusqueda}"
+                         SelectedItem="{Binding ProductoSeleccionado}"
+                         MaxHeight="130" Margin="0,0,0,6">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Nombre}" FontWeight="Bold" Margin="0,0,6,0"/>
+                                <TextBlock Text=" - " Foreground="Gray"/>
+                                <TextBlock Text="{Binding Descripcion}" Foreground="#7F8C8D" FontStyle="Italic" Margin="4,0,10,0"/>
+                                <TextBlock Text="(" Foreground="Gray"/>
+                                <TextBlock Text="{Binding Marca}" Foreground="#2980B9" FontStyle="Italic"/>
+                                <TextBlock Text=")" Foreground="Gray" Margin="0,0,10,0"/>
+                                <TextBlock Text="{Binding Precio, StringFormat=C}" Foreground="Gray" Margin="0,0,10,0"/>
+                                <TextBlock Text="Stock: " Foreground="Gray"/>
+                                <TextBlock Text="{Binding Stock}" Foreground="Gray"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+                <Grid Grid.Row="4" Margin="0,0,0,16">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox Grid.Column="0"
+                             Text="{Binding Cantidad, UpdateSourceTrigger=PropertyChanged}"
+                             Padding="8" FontSize="13"/>
+                    <Button Grid.Column="1" Content="➕ Agregar Producto"
+                            Command="{Binding AgregarAlCarritoCommand}"
+                            Padding="12,0" Margin="6,0,0,0" Height="34"
+                            Background="#27AE60" Foreground="White"/>
+                </Grid>
+
+                <!-- ── Sección: Agregar Servicio ── -->
+                <Border Grid.Row="5"
+                        Background="#EAF4FB" CornerRadius="4"
+                        Padding="10" Margin="0,0,0,8">
+                    <TextBlock Text="🛠 Agregar Servicio"
+                               FontWeight="Bold" FontSize="13" Foreground="#1A5276"/>
+                </Border>
+
+                <Grid Grid.Row="6" Margin="0,0,0,6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox Grid.Column="0"
+                             Text="{Binding TextoBusquedaServicio, UpdateSourceTrigger=PropertyChanged}"
+                             Padding="8" FontSize="13"/>
+                    <Button Grid.Column="1" Content="Buscar"
+                            Command="{Binding BuscarServicioCommand}"
+                            Padding="12,0" Margin="6,0,0,0" Height="34"
+                            Background="#1A5276" Foreground="White"/>
+                </Grid>
+
+                <ListBox Grid.Row="7"
+                         ItemsSource="{Binding ResultadosBusquedaServicio}"
+                         SelectedItem="{Binding ServicioSeleccionado}"
+                         MaxHeight="100" Margin="0,0,0,6">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Nombre}" FontWeight="Bold" Margin="0,0,6,0"/>
+                                <TextBlock Text=" — " Foreground="Gray"/>
+                                <TextBlock Text="{Binding Categoria}" Foreground="#2980B9" FontStyle="Italic" Margin="4,0,10,0"/>
+                                <TextBlock Text="{Binding Precio, StringFormat=C}" Foreground="Gray"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+                <Grid Grid.Row="8" Margin="0,0,0,20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox Grid.Column="0"
+                             Text="{Binding CantidadServicio, UpdateSourceTrigger=PropertyChanged}"
+                             Padding="8" FontSize="13"/>
+                    <Button Grid.Column="1" Content="➕ Agregar Servicio"
+                            Command="{Binding AgregarServicioAlCarritoCommand}"
+                            Padding="12,0" Margin="6,0,0,0" Height="34"
+                            Background="#2980B9" Foreground="White"/>
+                </Grid>
+
+                <!-- ── Carrito: Productos ── -->
+                <TextBlock Grid.Row="9"
+                           Text="🛒 Carrito de productos"
+                           FontSize="14" FontWeight="Bold"
+                           Margin="0,0,0,8" Foreground="#2C3E50"/>
+
+                <DataGrid Grid.Row="10"
+                          ItemsSource="{Binding Carrito}"
+                          AutoGenerateColumns="False"
+                          IsReadOnly="True"
+                          CanUserResizeRows="False"
+                          HeadersVisibility="Column"
+                          GridLinesVisibility="Horizontal"
+                          Margin="0,0,0,16">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Producto"    Binding="{Binding Producto.Nombre}"              Width="140"/>
+                        <DataGridTextColumn Header="Descripción" Binding="{Binding Producto.Descripcion}"         Width="*"/>
+                        <DataGridTextColumn Header="Marca"       Binding="{Binding Producto.Marca}"               Width="90"/>
+                        <DataGridTextColumn Header="Cantidad"    Binding="{Binding Cantidad}"                     Width="70"/>
+                        <DataGridTextColumn Header="Precio"      Binding="{Binding PrecioUnitario, StringFormat=C}" Width="80"/>
+                        <DataGridTextColumn Header="Subtotal"    Binding="{Binding Subtotal, StringFormat=C}"     Width="90"/>
+                        <DataGridTemplateColumn Header="" Width="50">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="❌"
+                                            Command="{Binding DataContext.EliminarDelCarritoCommand,
+                                                      RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}"
+                                            Background="Transparent" BorderThickness="0"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <!-- ── Carrito: Servicios ── -->
+                <TextBlock Grid.Row="11"
+                           Text="🛠 Servicios en esta venta"
+                           FontSize="14" FontWeight="Bold"
+                           Margin="0,0,0,8" Foreground="#1A5276"/>
+
+                <DataGrid Grid.Row="12"
+                          ItemsSource="{Binding CarritoServicios}"
+                          AutoGenerateColumns="False"
+                          IsReadOnly="True"
+                          CanUserResizeRows="False"
+                          HeadersVisibility="Column"
+                          GridLinesVisibility="Horizontal"
+                          Margin="0,0,0,10">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Servicio"  Binding="{Binding Servicio.Nombre}"              Width="*"/>
+                        <DataGridTextColumn Header="Categoría" Binding="{Binding Servicio.Categoria}"           Width="100"/>
+                        <DataGridTextColumn Header="Cant."     Binding="{Binding Cantidad}"                     Width="55"/>
+                        <DataGridTextColumn Header="Precio"    Binding="{Binding PrecioUnitario, StringFormat=C}" Width="80"/>
+                        <DataGridTextColumn Header="Subtotal"  Binding="{Binding Subtotal, StringFormat=C}"     Width="90"/>
+                        <DataGridTemplateColumn Header="" Width="50">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="❌"
+                                            Command="{Binding DataContext.EliminarServicioDelCarritoCommand,
+                                                      RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}"
+                                            Background="Transparent" BorderThickness="0"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+            </Grid>
+        </ScrollViewer>
+
+        <!-- ═══════════════════════════════════════════════════
+             LADO DERECHO — RESUMEN
+        ════════════════════════════════════════════════════ -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0"
+                       Text="Resumen"
+                       FontSize="16" FontWeight="Bold"
+                       Margin="0,0,0,20"/>
+
+            <StackPanel Grid.Row="1" Margin="0,0,0,20">
+                <TextBlock Text="Total a cobrar" FontSize="13" Foreground="Gray"/>
+                <TextBlock Text="{Binding Total, StringFormat=C}"
+                           FontSize="28" FontWeight="Bold" Foreground="#27AE60"/>
+            </StackPanel>
+
+            <Button Grid.Row="2"
+                    Content="✅ Confirmar Venta"
+                    Command="{Binding ConfirmarVentaCommand}"
+                    Padding="10" FontSize="14" Height="45"
+                    Background="#27AE60" Foreground="White"
+                    Margin="0,0,0,8"/>
+
+            <Button Grid.Row="3"
+                    Content="❌ Cancelar Venta"
+                    Command="{Binding CancelarVentaCommand}"
+                    Padding="10" FontSize="14" Height="45"
+                    Background="#E74C3C" Foreground="White"
+                    Margin="0,0,0,16"/>
+
+            <!-- ── Panel: Ventas del día ── -->
+            <Border Grid.Row="4"
+                    Background="#F0F4F8"
+                    BorderBrush="#CCCCCC"
+                    BorderThickness="1"
+                    CornerRadius="6"
+                    Padding="14"
+                    VerticalAlignment="Top">
+                <StackPanel>
+
+                    <TextBlock Text="📊 Ventas del día"
+                               FontSize="13" FontWeight="Bold"
+                               Foreground="#1A2E4A"
+                               Margin="0,0,0,10"/>
+
+                    <Separator Margin="0,0,0,10"/>
+
+                    <!-- Ganancias -->
+                    <TextBlock Text="Ganancias" FontSize="11" Foreground="Gray" Margin="0,0,0,2"/>
+                    <TextBlock Text="{Binding VentasDelDiaTotal, StringFormat=C}"
+                               FontSize="22" FontWeight="Bold" Foreground="#27AE60"
+                               Margin="0,0,0,12"/>
+
+                    <!-- Estadísticas -->
+                    <Grid Margin="0,0,0,7">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Ventas realizadas"
+                                   FontSize="11" Foreground="#555555" VerticalAlignment="Center"/>
+                        <Border Grid.Column="1" Background="#1A2E4A" CornerRadius="10" Padding="8,2">
+                            <TextBlock Text="{Binding VentasDelDiaCantidad}"
+                                       FontSize="11" FontWeight="Bold" Foreground="White"/>
+                        </Border>
+                    </Grid>
+
+                    <Grid Margin="0,0,0,7">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Productos vendidos"
+                                   FontSize="11" Foreground="#555555" VerticalAlignment="Center"/>
+                        <Border Grid.Column="1" Background="#2980B9" CornerRadius="10" Padding="8,2">
+                            <TextBlock Text="{Binding ProductosVendidosHoy}"
+                                       FontSize="11" FontWeight="Bold" Foreground="White"/>
+                        </Border>
+                    </Grid>
+
+                    <Grid Margin="0,0,0,14">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Servicios vendidos"
+                                   FontSize="11" Foreground="#555555" VerticalAlignment="Center"/>
+                        <Border Grid.Column="1" Background="#8E44AD" CornerRadius="10" Padding="8,2">
+                            <TextBlock Text="{Binding ServiciosVendidosHoy}"
+                                       FontSize="11" FontWeight="Bold" Foreground="White"/>
+                        </Border>
+                    </Grid>
+
+                    <Separator Margin="0,0,0,12"/>
+
+                    <!-- ── Botones uniformes ── -->
+                    <Button Content="📊 Exportar a Excel"
+                            Command="{Binding ExportarResumenExcelCommand}"
+                            Height="36" FontSize="11"
+                            Background="#27AE60" Foreground="White"
+                            Cursor="Hand" Margin="0,0,0,8"/>
+
+                    <Button Content="📄 Exportar a PDF"
+                            Command="{Binding ExportarResumenPdfCommand}"
+                            Height="36" FontSize="11"
+                            Background="#E74C3C" Foreground="White"
+                            Cursor="Hand" Margin="0,0,0,8"/>
+
+                    <Button Content="📅 Ver días anteriores"
+                            Command="{Binding VerDiasAnterioresCommand}"
+                            Height="36" FontSize="11"
+                            Background="#1A5276" Foreground="White"
+                            Cursor="Hand"/>
+
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

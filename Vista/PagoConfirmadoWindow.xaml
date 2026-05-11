@@ -1,0 +1,193 @@
+﻿<Window x:Class="Project_v1.Vista.PagoConfirmadoWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Pago Confirmado"
+        Width="440" Height="520"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="#F4F6F8">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- ===== ENCABEZADO VERDE ===== -->
+        <Border Grid.Row="0" Background="#27AE60" Padding="20,18">
+            <StackPanel>
+                <TextBlock Text="✅ Pago Confirmado"
+                           FontSize="20" FontWeight="Bold"
+                           Foreground="White" HorizontalAlignment="Center"/>
+                <TextBlock Text="RECIBO DE PAGO"
+                           FontSize="11" Foreground="#D5F5E3"
+                           HorizontalAlignment="Center" Margin="0,4,0,0"/>
+            </StackPanel>
+        </Border>
+
+        <!-- ===== FECHA Y HORA ===== -->
+        <Border Grid.Row="1" Background="White"
+                BorderBrush="#E0E0E0" BorderThickness="0,0,0,1"
+                Padding="20,12">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="FECHA DE PAGO" FontSize="10" Foreground="#7F8C8D"/>
+                    <TextBlock x:Name="TxtFecha" FontSize="13" FontWeight="SemiBold"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+                    <TextBlock Text="HORA" FontSize="10" Foreground="#7F8C8D"/>
+                    <TextBlock x:Name="TxtHora" FontSize="13" FontWeight="SemiBold"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- ===== DATOS DEL CLIENTE Y DESGLOSE ===== -->
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="20,16,20,8">
+
+                <!-- Datos del cliente -->
+                <TextBlock Text="DATOS DEL CLIENTE"
+                           FontSize="10" FontWeight="Bold"
+                           Foreground="#7F8C8D" Margin="0,0,0,8"/>
+
+                <Border Background="White" CornerRadius="6"
+                        BorderBrush="#E0E0E0" BorderThickness="1"
+                        Padding="14,10" Margin="0,0,0,16">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="110"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Nombre"
+                                   FontSize="11" Foreground="#7F8C8D" Margin="0,3"/>
+                        <TextBlock Grid.Row="0" Grid.Column="1" x:Name="TxtNombre"
+                                   FontSize="11" FontWeight="SemiBold" Margin="0,3"/>
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Cédula"
+                                   FontSize="11" Foreground="#7F8C8D" Margin="0,3"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" x:Name="TxtCedula"
+                                   FontSize="11" Margin="0,3"/>
+
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Teléfono"
+                                   FontSize="11" Foreground="#7F8C8D" Margin="0,3"/>
+                        <TextBlock Grid.Row="2" Grid.Column="1" x:Name="TxtTelefono"
+                                   FontSize="11" Margin="0,3"/>
+
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Fecha deuda"
+                                   FontSize="11" Foreground="#7F8C8D" Margin="0,3"/>
+                        <TextBlock Grid.Row="3" Grid.Column="1" x:Name="TxtFechaDeuda"
+                                   FontSize="11" Margin="0,3"/>
+
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Fecha límite"
+                                   FontSize="11" Foreground="#7F8C8D" Margin="0,3"/>
+                        <TextBlock Grid.Row="4" Grid.Column="1" x:Name="TxtFechaLimite"
+                                   FontSize="11" Margin="0,3"/>
+                    </Grid>
+                </Border>
+
+                <!-- Desglose del pago -->
+                <TextBlock Text="DESGLOSE DEL PAGO"
+                           FontSize="10" FontWeight="Bold"
+                           Foreground="#7F8C8D" Margin="0,0,0,8"/>
+
+                <Border Background="White" CornerRadius="6"
+                        BorderBrush="#E0E0E0" BorderThickness="1"
+                        Padding="14,10" Margin="0,0,0,8">
+                    <StackPanel>
+
+                        <!-- Deuda principal -->
+                        <Grid Margin="0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Deuda principal"
+                                       FontSize="12"/>
+                            <TextBlock Grid.Column="1" x:Name="TxtMontoDeuda"
+                                       FontSize="12" FontWeight="SemiBold"/>
+                        </Grid>
+
+                        <!-- Mora (visible solo si aplica) -->
+                        <Grid x:Name="FilaMora" Margin="0,4" Visibility="Collapsed">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Mora aplicada"
+                                       FontSize="12" Foreground="#E74C3C"/>
+                            <TextBlock Grid.Column="1" x:Name="TxtMora"
+                                       FontSize="12" FontWeight="SemiBold"
+                                       Foreground="#E74C3C"/>
+                        </Grid>
+
+                        <Separator Margin="0,8" Background="#E0E0E0"/>
+
+                        <!-- Total -->
+                        <Grid Margin="0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="TOTAL PAGADO"
+                                       FontSize="13" FontWeight="Bold"/>
+                            <TextBlock Grid.Column="1" x:Name="TxtTotal"
+                                       FontSize="16" FontWeight="Bold"
+                                       Foreground="#27AE60"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- ===== SELLO PAGADO ===== -->
+        <Border Grid.Row="3" Background="White"
+                BorderBrush="#E0E0E0" BorderThickness="0,1,0,0"
+                Padding="20,10">
+            <Border BorderBrush="#27AE60" BorderThickness="2"
+                    CornerRadius="4" Padding="10,5"
+                    HorizontalAlignment="Center">
+                <TextBlock Text="✓  PAGADO"
+                           FontSize="14" FontWeight="Bold"
+                           Foreground="#27AE60"/>
+            </Border>
+        </Border>
+
+        <!-- ===== BOTONES ===== -->
+        <Grid Grid.Row="4" Margin="16,12,16,16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="12"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0" x:Name="BtnCerrar"
+                    Content="Cerrar"
+                    Height="40" FontSize="13"
+                    Background="#7F8C8D" Foreground="White"
+                    BorderThickness="0" Cursor="Hand"
+                    Click="BtnCerrar_Click"/>
+
+            <Button Grid.Column="2" x:Name="BtnExportarPdf"
+                    Content="📄 Exportar PDF"
+                    Height="40" FontSize="13"
+                    Background="#2C3E50" Foreground="White"
+                    BorderThickness="0" Cursor="Hand"
+                    Click="BtnExportarPdf_Click"/>
+        </Grid>
+    </Grid>
+</Window>

@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup />
+  <ItemGroup>
+    <Compile Update="Vista\ClientesDeudoresControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Vista\DashboardControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Vista\FacturaConfirmadaWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Vista\HistorialBackupWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Vista\HistorialClienteWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Vista\HistorialPagadosWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Vista\HistorialVentasControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Vista\InventarioWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Vista\LoginWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Vista\MiNegocioControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Vista\MoraDialogWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Vista\NotificacionesWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Vista\NotificacionStockWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Vista\PagoConfirmadoWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Vista\RegistroAdminWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Vista\ReporteDialogWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Vista\ServiciosControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Vista\UsuarioControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Vista\VentasControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Vista\VentasPorFechaWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+</Project>

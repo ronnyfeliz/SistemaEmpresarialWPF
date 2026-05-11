@@ -1,0 +1,344 @@
+﻿<Window x:Class="Project_v1.Vista.HistorialPagadosWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Historial de Clientes Pagados"
+        Height="700" Width="1000"
+        MinHeight="600" MinWidth="900"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanResize"
+        Background="#F4F6F8">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- ===== ENCABEZADO ===== -->
+        <Border Grid.Row="0" Background="#1A6B3C" Padding="20,14">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="8"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="8"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="💰 Historial de Clientes Pagados"
+                       FontSize="18" FontWeight="Bold" Foreground="White"/>
+                    <TextBlock Text="Registro de todas las deudas saldadas"
+                       FontSize="11" Foreground="#A9DFBF" Margin="0,3,0,0"/>
+                </StackPanel>
+                <Button Grid.Column="1"
+        x:Name="BtnExportarExcel"
+        Content="📊 Exportar Excel"
+        Click="BtnExportarExcel_Click"
+        Height="38" Padding="14,0"
+        FontSize="12" FontWeight="SemiBold"
+        Background="#1D6A39" Foreground="White"
+        BorderThickness="0" Cursor="Hand"
+        VerticalAlignment="Center"/>
+
+                <Button Grid.Column="3"
+        x:Name="BtnExportarPdfLista"
+        Content="📄 Exportar PDF"
+        Click="BtnExportarPdfLista_Click"
+        Height="38" Padding="14,0"
+        FontSize="12" FontWeight="SemiBold"
+        Background="#1D6A39" Foreground="White"
+        BorderThickness="0" Cursor="Hand"
+        VerticalAlignment="Center"/>
+
+                <Button Grid.Column="5"
+        x:Name="BtnExportarZip"
+        Content="📦 Exportar ZIP"
+        Click="BtnExportarZip_Click"
+        Height="38" Padding="14,0"
+        FontSize="12" FontWeight="SemiBold"
+        Background="#145A32" Foreground="White"
+        BorderThickness="0" Cursor="Hand"
+        VerticalAlignment="Center"/>
+
+            </Grid>
+        </Border>
+
+        <!-- ===== FILTROS ===== -->
+        <Border Grid.Row="1" Background="White"
+                BorderBrush="#E0E0E0" BorderThickness="0,0,0,1"
+                Padding="20,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="16"/>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition Width="16"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBox Grid.Column="0" x:Name="TxtBuscarNombre"
+                         Padding="8,6" FontSize="12"
+                         TextChanged="Filtrar">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox">
+                            <Style.Triggers>
+                                <Trigger Property="Text" Value="">
+                                    <Setter Property="Background">
+                                        <Setter.Value>
+                                            <VisualBrush Stretch="None" AlignmentX="Left">
+                                                <VisualBrush.Visual>
+                                                    <TextBlock Text="🔍  Buscar por nombre o cédula..."
+                                                               Foreground="Gray" Margin="8,0,0,0"/>
+                                                </VisualBrush.Visual>
+                                            </VisualBrush>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+
+                <DatePicker Grid.Column="2" x:Name="FiltroFecha"
+                            SelectedDateChanged="Filtrar"/>
+
+                <Button Grid.Column="4" Content="✖ Limpiar"
+                        Click="LimpiarFiltros"
+                        Padding="14,0" Height="34"
+                        Background="#7F8C8D" Foreground="White"
+                        BorderThickness="0" Cursor="Hand"/>
+            </Grid>
+        </Border>
+
+        <!-- ===== CONTENIDO PRINCIPAL ===== -->
+        <Grid Grid.Row="2" Margin="20,12,20,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="16"/>
+                <ColumnDefinition Width="320"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- ── TABLA IZQUIERDA ── -->
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" Margin="0,0,0,6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" x:Name="TxtConteo"
+                               FontSize="11" Foreground="#7F8C8D"
+                               VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="1" x:Name="TxtTotalPagado"
+                               FontSize="12" FontWeight="Bold"
+                               Foreground="#1A6B3C" VerticalAlignment="Center"/>
+                </Grid>
+
+                <DataGrid Grid.Row="1"
+                          x:Name="GridPagados"
+                          AutoGenerateColumns="False"
+                          IsReadOnly="True"
+                          SelectionMode="Single"
+                          GridLinesVisibility="Horizontal"
+                          HeadersVisibility="Column"
+                          CanUserResizeRows="False"
+                          SelectionChanged="GridPagados_SelectionChanged"
+                          Background="White">
+                    <DataGrid.Columns>
+                        <!-- Se asigna un ancho fijo más cómodo a Nombre para evitar que
+                             el encabezado y los valores queden recortados cuando la tabla
+                             comparte espacio con el panel de detalle. -->
+                        <DataGridTextColumn Header="Nombre"
+                          Binding="{Binding Nombre}" Width="160"/>
+
+                        <DataGridTextColumn Header="Cédula"
+                          Binding="{Binding Cedula}" Width="120"/>
+
+                        <DataGridTextColumn Header="Teléfono"
+                          Binding="{Binding Telefono}" Width="110"/>
+
+                        <DataGridTextColumn Header="Monto Deuda"
+                          Binding="{Binding MontoDeuda, StringFormat=C}" Width="110"/>
+
+                        <DataGridTemplateColumn Header="Mora" Width="55">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock HorizontalAlignment="Center" FontWeight="Bold">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Text" Value="No"/>
+                                                <Setter Property="Foreground" Value="#7F8C8D"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding TieneMora}" Value="True">
+                                                        <Setter Property="Text" Value="Sí"/>
+                                                        <Setter Property="Foreground" Value="#E74C3C"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="F. Inicio"
+                          Binding="{Binding FechaInicio, StringFormat=dd/MM/yyyy}" Width="90"/>
+                        <DataGridTextColumn Header="F. Límite"
+                          Binding="{Binding FechaPago, StringFormat=dd/MM/yyyy}" Width="90"/>
+                        <DataGridTextColumn Header="Pagado el"
+                          Binding="{Binding FechaPagado, StringFormat=dd/MM/yyyy}" Width="90"/>
+
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+
+            <!-- ── PANEL DETALLE DERECHO ── -->
+            <Border Grid.Column="2" Background="White"
+                    BorderBrush="#E0E0E0" BorderThickness="1"
+                    CornerRadius="6">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="16">
+
+                        <TextBlock Text="DETALLE DEL CLIENTE"
+                                   FontSize="10" FontWeight="Bold"
+                                   Foreground="#7F8C8D" Margin="0,0,0,10"/>
+
+                        <!-- Nombre y datos -->
+                        <TextBlock x:Name="DetNombre"
+                                   FontSize="15" FontWeight="Bold"
+                                   Foreground="#1A2E4A" Margin="0,0,0,3"
+                                   TextWrapping="Wrap"/>
+                        <TextBlock x:Name="DetCedula"
+                                   FontSize="11" Foreground="#7F8C8D" Margin="0,0,0,2"/>
+                        <TextBlock x:Name="DetTelefono"
+                                   FontSize="11" Foreground="#7F8C8D" Margin="0,0,0,12"/>
+
+                        <Separator Background="#E0E0E0" Margin="0,0,0,12"/>
+
+                        <!-- Fechas en grid 2x2 -->
+                        <Grid Margin="0,0,0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Margin="0,0,0,8">
+                                <TextBlock Text="DEUDA DESDE" FontSize="9" Foreground="#7F8C8D"/>
+                                <TextBlock x:Name="DetFechaInicio"
+                                           FontSize="12" FontWeight="SemiBold"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Margin="0,0,0,8">
+                                <TextBlock Text="FECHA LÍMITE" FontSize="9" Foreground="#7F8C8D"/>
+                                <TextBlock x:Name="DetFechaLimite"
+                                           FontSize="12" FontWeight="SemiBold"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid Margin="0,0,0,12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="PAGÓ EL" FontSize="9" Foreground="#7F8C8D"/>
+                                <TextBlock x:Name="DetFechaPagado"
+                                           FontSize="12" FontWeight="SemiBold"
+                                           Foreground="#1A6B3C"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="DÍAS PARA PAGAR" FontSize="9" Foreground="#7F8C8D"/>
+                                <TextBlock x:Name="DetDias"
+                                           FontSize="12" FontWeight="SemiBold"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <Separator Background="#E0E0E0" Margin="0,0,0,12"/>
+
+                        <!-- Montos -->
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Deuda principal"
+                                       FontSize="12" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="1" x:Name="DetMonto"
+                                       FontSize="12" FontWeight="Bold"/>
+                        </Grid>
+
+                        <Grid x:Name="DetFilaMora" Margin="0,0,0,6"
+                              Visibility="Collapsed">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Mora aplicada"
+                                       FontSize="12" Foreground="#E74C3C"
+                                       VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="1" x:Name="DetMora"
+                                       FontSize="12" FontWeight="Bold"
+                                       Foreground="#E74C3C"/>
+                        </Grid>
+
+                        <Separator Background="#E0E0E0" Margin="0,4,0,8"/>
+
+                        <Grid Margin="0,0,0,16">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="TOTAL PAGADO"
+                                       FontSize="13" FontWeight="Bold"
+                                       VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="1" x:Name="DetTotal"
+                                       FontSize="16" FontWeight="Bold"
+                                       Foreground="#1A6B3C"/>
+                        </Grid>
+
+                        <!-- Botones acción -->
+                        <Button Content="📋 Ver Notificaciones"
+                                x:Name="BtnVerNotificaciones"
+                                Click="BtnVerNotificaciones_Click"
+                                Height="36" FontSize="12"
+                                Background="#8E44AD" Foreground="White"
+                                BorderThickness="0" Cursor="Hand"
+                                Margin="0,0,0,8"/>
+
+                        <Button Content="📄 Exportar Recibo PDF"
+                                x:Name="BtnExportarPdf"
+                                Click="BtnExportarPdf_Click"
+                                Height="36" FontSize="12"
+                                Background="#2C3E50" Foreground="White"
+                                BorderThickness="0" Cursor="Hand"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+        </Grid>
+
+        <!-- ===== PIE ===== -->
+        <Border Grid.Row="3" Background="White"
+                BorderBrush="#E0E0E0" BorderThickness="0,1,0,0"
+                Padding="20,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" x:Name="TxtPie"
+                           FontSize="12" Foreground="#7F8C8D"
+                           VerticalAlignment="Center"/>
+                <Button Grid.Column="1" Content="Cerrar"
+                        Click="BtnCerrar_Click"
+                        Height="38" Width="120" FontSize="13"
+                        Background="#2C3E50" Foreground="White"
+                        BorderThickness="0" Cursor="Hand"/>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

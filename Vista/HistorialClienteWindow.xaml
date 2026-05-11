@@ -1,0 +1,124 @@
+﻿<Window x:Class="Project_v1.Vista.HistorialClienteWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Historial del Cliente"
+        Height="600" Width="680"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Nombre -->
+            <RowDefinition Height="Auto"/>
+            <!-- Datos -->
+            <RowDefinition Height="Auto"/>
+            <!-- Resumen deuda -->
+            <RowDefinition Height="Auto"/>
+            <!-- Resumen mora -->
+            <RowDefinition Height="Auto"/>
+            <!-- Titulo historial -->
+            <RowDefinition Height="*"/>
+            <!-- Tabla -->
+            <RowDefinition Height="Auto"/>
+            <!-- Boton -->
+        </Grid.RowDefinitions>
+
+        <!-- Nombre del cliente -->
+        <TextBlock Grid.Row="0" x:Name="TxtNombreCliente"
+                   FontSize="18" FontWeight="Bold"
+                   Margin="0,0,0,5"/>
+
+        <!-- Datos del cliente -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,15">
+            <TextBlock x:Name="TxtCedula"      FontSize="13" Foreground="Gray" Margin="0,0,20,0"/>
+            <TextBlock x:Name="TxtTelefono"    FontSize="13" Foreground="Gray" Margin="0,0,20,0"/>
+            <TextBlock x:Name="TxtFechaInicio" FontSize="13" Foreground="Gray"/>
+        </StackPanel>
+
+        <!-- Resumen de deuda -->
+        <Border Grid.Row="2"
+                Background="#F0F4F8"
+                BorderBrush="#CCCCCC"
+                BorderThickness="1"
+                CornerRadius="5"
+                Padding="15,10"
+                Margin="0,0,0,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="Monto de Deuda" FontSize="11" Foreground="Gray"/>
+                    <TextBlock x:Name="TxtMonto" FontSize="16" FontWeight="Bold" Foreground="#E74C3C"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <TextBlock Text="Fecha Limite" FontSize="11" Foreground="Gray"/>
+                    <TextBlock x:Name="TxtFechaPago" FontSize="16" FontWeight="Bold"/>
+                </StackPanel>
+                <StackPanel Grid.Column="2">
+                    <TextBlock Text="Estado" FontSize="11" Foreground="Gray"/>
+                    <TextBlock x:Name="TxtEstado" FontSize="16" FontWeight="Bold"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Resumen de mora — visible solo si tiene mora -->
+        <Border Grid.Row="3"
+                x:Name="PanelMora"
+                Background="#FEF0F0"
+                BorderBrush="#E74C3C"
+                BorderThickness="1"
+                CornerRadius="5"
+                Padding="15,10"
+                Margin="0,0,0,15"
+                Visibility="Collapsed">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="Clausula de Mora" FontSize="11" Foreground="#E74C3C"/>
+                    <TextBlock Text="Si" FontSize="16" FontWeight="Bold" Foreground="#E74C3C"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <TextBlock Text="Monto de Mora" FontSize="11" Foreground="#E74C3C"/>
+                    <TextBlock x:Name="TxtMora" FontSize="16" FontWeight="Bold" Foreground="#E74C3C"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Titulo historial -->
+        <TextBlock Grid.Row="4" Text="Historial de Notificaciones"
+                   FontSize="14" FontWeight="Bold"
+                   Margin="0,0,0,8"/>
+
+        <!-- Tabla de notificaciones -->
+        <DataGrid Grid.Row="5"
+                  x:Name="GridHistorial"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  CanUserResizeRows="False"
+                  GridLinesVisibility="Horizontal"
+                  HeadersVisibility="Column">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Fecha"   Binding="{Binding FechaEmision, StringFormat=dd/MM/yyyy}" Width="100"/>
+                <DataGridTextColumn Header="Hora"    Binding="{Binding FechaEmision, StringFormat=HH:mm}"      Width="70"/>
+                <DataGridTextColumn Header="Mensaje" Binding="{Binding Mensaje}"                               Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Boton cerrar -->
+        <Button Grid.Row="6"
+                Content="Cerrar"
+                Click="BtnCerrar_Click"
+                Height="38" Width="150"
+                FontSize="13"
+                Background="#2C3E50"
+                Foreground="White"
+                HorizontalAlignment="Right"
+                Margin="0,15,0,0"/>
+    </Grid>
+</Window>
